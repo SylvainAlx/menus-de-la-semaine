@@ -1,0 +1,34 @@
+{
+  "frigo": {
+    "ingredients": []
+  },
+  "plats": [
+    {
+      "nom": "Riz, oeufs, petits pois",
+      "ingredients": [
+        {
+          "nom": "riz",
+          "quantite": 150,
+          "unite": "g"
+        },
+        {
+          "nom": "oeufs",
+          "quantite": 3,
+          "unite": "pieces"
+        },
+        {
+          "nom": "petits pois",
+          "quantite": 150,
+          "unite": "g"
+        }
+      ],
+      "repas": {
+        "midi": true,
+        "soir": true
+      },
+      "saisons": ["ete", "hiver", "printemps", "automne"],
+      "duree_preparation": 15
+    }
+  ],
+  "historique_menus": []
+}

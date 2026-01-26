@@ -1,0 +1,21 @@
+.ingredients-list {
+  margin-top: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.ingredients-list li {
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ingredients-list li:last-child {
+  border-bottom: none;
+}
+
+.veg-icon {
+  color: #10b981;
+}

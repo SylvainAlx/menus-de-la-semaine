@@ -1,0 +1,36 @@
+---
+import Header from "../components/layouts/header.astro";
+import "../styles/main.css";
+---
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Les menus de la semaine</title>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <footer></footer>
+  </body>
+</html>
+
+<script>
+  import { utilisateur } from "../store.ts";
+
+  const btn = document.getElementById("btn-charger");
+  btn?.addEventListener("click", async () => {
+    await utilisateur.get().chargerDataDepuisJson();
+  });
+
+  const btn2 = document.getElementById("btn-sauvegarder");
+  btn2?.addEventListener("click", async () => {
+    await utilisateur.get().telechargerDataEnJson();
+  });
+</script>

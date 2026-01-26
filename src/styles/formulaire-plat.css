@@ -1,0 +1,100 @@
+
+.ingredient-row {
+  display: grid;
+  /* Nom: extensible, Qté: fixe court, Unité: fixe moyen, Supprimer: auto */
+  grid-template-columns: 1fr 50px 80px auto;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  align-items: stretch;
+  background: #f8fafc;
+  padding: 0.4rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.ingredient-row input {
+  max-width: 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 0.4rem !important; /* Reduced padding */
+  font-size: 0.85rem !important;
+}
+
+/* Specific overrides for Qté if needed */
+.ing-input-qte {
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .ingredient-row {
+    grid-template-areas: 
+      "nom nom close"
+      "qte unite close";
+    grid-template-columns: 60px 1fr auto; /* Small fixed width for Qté on mobile too */
+    gap: 0.4rem;
+  }
+
+  .ing-input-nom { grid-area: nom; }
+  .ing-input-qte { grid-area: qte; }
+  .ing-input-unite { grid-area: unite; }
+  .remove-ing { 
+    grid-area: close; 
+    height: 100% !important; 
+    min-height: 40px;
+  }
+}
+
+.remove-ing {
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.remove-ing:hover {
+  background: #fecaca;
+}
+
+/* Side Panel Layout */
+.form-side-panel {
+  position: fixed;
+  top: 0;
+  right: -600px;
+  width: 90%;
+  max-width: 500px;
+  height: 100vh;
+  z-index: 1000;
+  transition: right 0.3s ease-in-out;
+  background: var(--card-bg);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-side-panel.open {
+  right: 0;
+}
+
+/* Overlay */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
