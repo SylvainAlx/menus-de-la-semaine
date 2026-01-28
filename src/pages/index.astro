@@ -1,5 +1,6 @@
 ---
 import FormulairePlat from "../components/formulaire-plat";
+import FormulaireMenu from "../components/formulaire-menu";
 import Layout from "../layouts/layout.astro";
 ---
 
@@ -9,21 +10,17 @@ import Layout from "../layouts/layout.astro";
       <h2>Plats</h2>
       <div id="liste_plats"></div>
       <FormulairePlat client:load />
+      <FormulaireMenu client:load />
     </section>
   </section>
-  <section id="menus">
+  <section>
     <h2>Menus</h2>
-    <div id="historique_menus"></div>
-  </section>
-  <section id="stock">
-    <h2>Stock</h2>
-    <div id="ingredients_en_stock"></div>
+    <div id="menus"></div>
   </section>
 </Layout>
 
 <script>
   import { utilisateur } from "../store.ts";
-  utilisateur.get().AfficherPlats();
-  utilisateur.get().AfficherHistoriqueMenus();
-  utilisateur.get().AfficherStock();
+  utilisateur.get().afficherPlats();
+  utilisateur.get().afficherMenus();
 </script>

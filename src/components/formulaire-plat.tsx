@@ -41,7 +41,7 @@ export default function FormulairePlat() {
       (s) => data[`saison_${s}`] === "on",
     );
 
-    utilisateur.get().AjouterPlat(
+    utilisateur.get().ajouterPlat(
       new Plat(
         data.nom as string,
         ingredients.map(
