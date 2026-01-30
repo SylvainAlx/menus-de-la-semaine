@@ -59,3 +59,89 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+/* Common Components and Utilities */
+.hidden {
+  display: none !important;
+}
+
+.btn-supprimer {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-supprimer:hover {
+  background-color: #fee2e2;
+}
+
+.btn-editer {
+  background: none;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-editer:hover {
+  background-color: #f1f5f9;
+  border-color: var(--primary);
+}
+
+.btn-toggle {
+  background: none;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.btn-toggle:hover {
+  background-color: #f1f5f9;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-toggle.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary-dark);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Common Card Styles */
+.plat-card, .menu-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plat-card:hover, .menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+

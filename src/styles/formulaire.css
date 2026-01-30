@@ -82,7 +82,9 @@ label {
 }
 
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="date"],
+select {
   width: 100%;
   min-width: 0;
   padding: 0.75rem;
@@ -92,9 +94,11 @@ input[type="number"] {
   font-size: 1rem;
   transition: border-color 0.2s;
   box-sizing: border-box;
+  background: white;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
@@ -240,4 +244,35 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* Side Panel Layout */
+.form-side-panel {
+  position: fixed;
+  top: 0;
+  right: -600px;
+  width: 90%;
+  max-width: 500px;
+  height: 100vh;
+  z-index: 1000;
+  transition: right 0.3s ease-in-out;
+  background: var(--card-bg);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-side-panel.open {
+  right: 0;
+}
+
+/* Overlay */
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
 }

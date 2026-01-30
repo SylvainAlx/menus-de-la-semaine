@@ -59,6 +59,7 @@ export class Utilisateur {
           plat.saisons,
           plat.duree_preparation,
           plat.vegetarien,
+          plat.recette,
         ),
     );
     this.menus = (session.menus || []).map(
@@ -80,6 +81,9 @@ export class Utilisateur {
     }
 
     let platsAAfficher = [...this.plats];
+
+    const platTitle = document.getElementById("plats-title");
+    platTitle.textContent = `Mes plats (${platsAAfficher.length})`;
 
     // Tri par défaut : alphabétique
     platsAAfficher.sort((a, b) => a.nom.localeCompare(b.nom));
@@ -146,6 +150,16 @@ export class Utilisateur {
             )
             .join("")}
         </ul>
+        ${
+          plat.recette
+            ? `
+          <div class="plat-recette">
+            <h4>Recette :</h4>
+            <p>${plat.recette.replace(/\n/g, "<br>")}</p>
+          </div>
+        `
+            : ""
+        }
       </div>
     `;
 
@@ -380,6 +394,8 @@ export class Utilisateur {
       menus.innerHTML = "<p>Aucun menu enregistré.</p>";
       return;
     }
+    const menuTitle = document.getElementById("menus-title");
+    menuTitle.textContent = `Mes menus de la semaine (${this.menus.length})`;
     this.menus.map((menu) => menus.appendChild(this.creerCarteMenu(menu)));
   }
 

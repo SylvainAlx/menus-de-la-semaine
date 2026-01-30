@@ -28,6 +28,8 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
     setSaisons,
     ingredients,
     setIngredients,
+    recette,
+    setRecette,
     resetForm,
     handleSubmit,
     handleChangeIngredient,
@@ -227,6 +229,19 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
             >
               + Ajouter un ingrédient
             </button>
+          </div>
+
+          <div className="form-section">
+            <h4>Recette (optionnel)</h4>
+            <textarea
+              id="recette"
+              name="recette"
+              placeholder="Étapes de la recette..."
+              className="recette-textarea"
+              value={recette}
+              onChange={(e) => setRecette(e.target.value)}
+              rows={5}
+            />
           </div>
 
           <div className="form-actions">

@@ -40,6 +40,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     automne: true,
     hiver: true,
   });
+  const [recette, setRecette] = useState("");
 
   // Utiliser useEffect pour initialiser avec des IDs uniques après le montage
   useEffect(() => {
@@ -76,6 +77,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
           unite: ing.unite,
         })),
       );
+      setRecette(plat.recette || "");
     }
   }, [plat]);
 
@@ -105,6 +107,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
           unite: ing.unite,
         })),
       );
+      setRecette(platAEditer.recette || "");
     };
 
     document.addEventListener("editerPlat", handleEditerPlat as EventListener);
@@ -160,6 +163,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
       automne: true,
       hiver: true,
     });
+    setRecette("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -178,6 +182,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
       saisonsArray,
       Number(dureePreparation),
       vegetarien,
+      recette,
     );
 
     if (isEditMode && currentPlat) {
@@ -210,6 +215,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     repasSoir,
     saisons,
     currentPlat,
+    recette,
 
     // Setters
     setIsOpen,
@@ -221,6 +227,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     setRepasMidi,
     setRepasSoir,
     setSaisons,
+    setRecette,
 
     // Méthodes
     addIngredient,

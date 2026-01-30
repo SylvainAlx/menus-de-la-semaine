@@ -11,6 +11,7 @@ export class MenusDuJour {
           midi.saisons,
           midi.duree_preparation,
           midi.vegetarien,
+          midi.recette,
         )
       : null;
     this.soir = soir
@@ -21,6 +22,7 @@ export class MenusDuJour {
           soir.saisons,
           soir.duree_preparation,
           soir.vegetarien,
+          soir.recette,
         )
       : null;
   }
