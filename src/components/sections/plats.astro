@@ -1,0 +1,52 @@
+---
+import FormulaireMenu from "../formulaire-menu";
+import FormulairePlat from "../formulaire-plat";
+---
+
+<section id="plats">
+  <div class="plats-container">
+    <div class="plats-header">
+      <h2>Nos Plats</h2>
+      <div class="filtres-bar">
+        <div class="filtre-group">
+          <select id="filtre-saison">
+            <option value="toutes">Toutes saisons</option>
+            <option value="printemps">Printemps</option>
+            <option value="ete">Été</option>
+            <option value="automne">Automne</option>
+            <option value="hiver">Hiver</option>
+          </select>
+        </div>
+        <div class="filtre-group">
+          <label class="checkbox-container">
+            <input type="checkbox" id="filtre-veggie" />
+            <span class="checkmark"></span>
+            Végétarien
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="liste_plats"></div>
+    <div class="actions-plats">
+      <FormulairePlat client:only="react" />
+      <FormulaireMenu client:only="react" />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { utilisateur } from "../../store";
+
+  const u = utilisateur.get();
+  u.afficherPlats();
+  // Écouteurs pour les filtres
+  document.getElementById("filtre-saison")?.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+    u.appliquerFiltres({ saison: target.value });
+  });
+
+  document.getElementById("filtre-veggie")?.addEventListener("change", (e) => {
+    const target = e.target as HTMLInputElement;
+    u.appliquerFiltres({ vegetarien: target.checked });
+  });
+</script>

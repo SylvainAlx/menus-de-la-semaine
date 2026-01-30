@@ -1,79 +1,59 @@
-import React, { useState } from "react";
 import "../styles/formulaire-plat.css";
 import "../styles/formulaire.css";
-import { utilisateur } from "../store";
 import { Plat } from "../classes/plat";
-import { Ingredient } from "../classes/ingredient";
+import { useFormulairePlat } from "../hooks/useFormulairePlat";
 
-export default function FormulairePlat() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [ingredients, setIngredients] = useState([
-    { id: Date.now(), nom: "", qte: "", unite: "" },
-  ]);
+interface FormulairePlatProps {
+  plat?: Plat;
+  onSave?: () => void;
+}
 
-  const addIngredient = () => {
-    setIngredients([
-      ...ingredients,
-      { id: Date.now() + Math.random(), nom: "", qte: "", unite: "" },
-    ]);
-  };
-
-  const removeIngredient = (id: number) => {
-    if (ingredients.length > 1) {
-      setIngredients(ingredients.filter((ing) => ing.id !== id));
-    }
-  };
-
-  const handleChangeIngredient = (id: number, field: string, value: string) => {
-    setIngredients(
-      ingredients.map((ing) =>
-        ing.id === id ? { ...ing, [field]: value } : ing,
-      ),
-    );
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
-
-    const saisons = ["printemps", "ete", "automne", "hiver"].filter(
-      (s) => data[`saison_${s}`] === "on",
-    );
-
-    utilisateur.get().ajouterPlat(
-      new Plat(
-        data.nom as string,
-        ingredients.map(
-          (ing) => new Ingredient(ing.nom, Number(ing.qte), ing.unite),
-        ),
-        { midi: data.repas_midi === "on", soir: data.repas_soir === "on" },
-        saisons,
-        Number(data.duree_preparation),
-        data.vegetarien === "on",
-      ),
-    );
-    // Optionally close after submit
-    setIsOpen(false);
-  };
+export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
+  const {
+    isOpen,
+    setIsOpen,
+    isEditMode,
+    setIsEditMode,
+    nom,
+    setNom,
+    dureePreparation,
+    setDureePreparation,
+    vegetarien,
+    setVegetarien,
+    repasMidi,
+    setRepasMidi,
+    repasSoir,
+    setRepasSoir,
+    saisons,
+    setSaisons,
+    ingredients,
+    setIngredients,
+    resetForm,
+    handleSubmit,
+    handleChangeIngredient,
+    addIngredient,
+    removeIngredient,
+  } = useFormulairePlat({ plat, onSave });
 
   return (
     <>
-      <button
-        className={`form-toggle-btn ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Ajouter un plat"
-      >
-        {isOpen ? "×" : "+"}
-      </button>
+      {!isEditMode && (
+        <button
+          className={`form-toggle-btn ${isOpen ? "open" : ""}`}
+          onClick={() => (isOpen ? resetForm() : setIsOpen(true))}
+          aria-label="Ajouter un plat"
+        >
+          {isOpen ? "×" : "+"}
+        </button>
+      )}
 
       <div className={`form-side-panel ${isOpen ? "open" : ""}`}>
         <form
-          id="ajouter_plat_form"
+          id={isEditMode ? "modifier_plat_form" : "ajouter_plat_form"}
           className="form-container"
           onSubmit={handleSubmit}
         >
-          <h3>Nouveau Plat</h3>
+          <h3>{isEditMode ? "Modifier le Plat" : "Nouveau Plat"}</h3>
 
           <div className="form-group">
             <label htmlFor="nom">Nom du plat</label>
@@ -82,6 +62,8 @@ export default function FormulairePlat() {
               id="nom"
               name="nom"
               placeholder="Ex: Lasagnes Végétariennes"
+              value={nom}
+              onChange={(e) => setNom(e.target.value)}
               required
             />
           </div>
@@ -94,13 +76,20 @@ export default function FormulairePlat() {
                 id="duree_preparation"
                 name="duree_preparation"
                 min="0"
-                defaultValue="30"
+                value={dureePreparation}
+                onChange={(e) => setDureePreparation(e.target.value)}
                 required
               />
             </div>
             <div className="form-group checkbox-group">
               <label className="switch">
-                <input type="checkbox" id="vegetarien" name="vegetarien" />
+                <input
+                  type="checkbox"
+                  id="vegetarien"
+                  name="vegetarien"
+                  checked={vegetarien}
+                  onChange={(e) => setVegetarien(e.target.checked)}
+                />
                 <span className="slider round"></span>
               </label>
               <span className="label-text">Végétarien ?</span>
@@ -111,10 +100,22 @@ export default function FormulairePlat() {
             <h4>Type de repas</h4>
             <div className="checkbox-options">
               <label>
-                <input type="checkbox" name="repas_midi" defaultChecked /> Midi
+                <input
+                  type="checkbox"
+                  name="repas_midi"
+                  checked={repasMidi}
+                  onChange={(e) => setRepasMidi(e.target.checked)}
+                />{" "}
+                Midi
               </label>
               <label>
-                <input type="checkbox" name="repas_soir" defaultChecked /> Soir
+                <input
+                  type="checkbox"
+                  name="repas_soir"
+                  checked={repasSoir}
+                  onChange={(e) => setRepasSoir(e.target.checked)}
+                />{" "}
+                Soir
               </label>
             </div>
           </div>
@@ -123,18 +124,47 @@ export default function FormulairePlat() {
             <h4>Saisons</h4>
             <div className="checkbox-options">
               <label>
-                <input type="checkbox" name="saison_printemps" defaultChecked />
+                <input
+                  type="checkbox"
+                  name="saison_printemps"
+                  checked={saisons.printemps}
+                  onChange={(e) =>
+                    setSaisons({ ...saisons, printemps: e.target.checked })
+                  }
+                />
                 Printemps
               </label>
               <label>
-                <input type="checkbox" name="saison_ete" defaultChecked /> Été
+                <input
+                  type="checkbox"
+                  name="saison_ete"
+                  checked={saisons.ete}
+                  onChange={(e) =>
+                    setSaisons({ ...saisons, ete: e.target.checked })
+                  }
+                />{" "}
+                Été
               </label>
               <label>
-                <input type="checkbox" name="saison_automne" defaultChecked />{" "}
+                <input
+                  type="checkbox"
+                  name="saison_automne"
+                  checked={saisons.automne}
+                  onChange={(e) =>
+                    setSaisons({ ...saisons, automne: e.target.checked })
+                  }
+                />{" "}
                 Automne
               </label>
               <label>
-                <input type="checkbox" name="saison_hiver" defaultChecked />{" "}
+                <input
+                  type="checkbox"
+                  name="saison_hiver"
+                  checked={saisons.hiver}
+                  onChange={(e) =>
+                    setSaisons({ ...saisons, hiver: e.target.checked })
+                  }
+                />{" "}
                 Hiver
               </label>
             </div>
@@ -148,7 +178,7 @@ export default function FormulairePlat() {
                   <input
                     type="text"
                     placeholder="Ingrédient"
-                    name="nom"
+                    name={`ingredient_nom_${ing.id}`}
                     className="ing-input ing-input-nom"
                     value={ing.nom}
                     onChange={(e) =>
@@ -199,9 +229,24 @@ export default function FormulairePlat() {
             </button>
           </div>
 
-          <button type="submit" className="btn-primary">
-            Enregistrer le plat
-          </button>
+          <div className="form-actions">
+            <button type="submit" className="btn-primary">
+              {isEditMode ? "Modifier le plat" : "Enregistrer le plat"}
+            </button>
+            {isEditMode && (
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsEditMode(false);
+                  setIngredients([{ id: 1, nom: "", qte: "", unite: "" }]);
+                }}
+              >
+                Annuler
+              </button>
+            )}
+          </div>
         </form>
       </div>
 

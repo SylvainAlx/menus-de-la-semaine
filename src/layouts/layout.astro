@@ -20,17 +20,3 @@ import "../styles/main.css";
     <footer></footer>
   </body>
 </html>
-
-<script>
-  import { utilisateur } from "../store.ts";
-
-  const btn = document.getElementById("btn-charger");
-  btn?.addEventListener("click", async () => {
-    await utilisateur.get().chargerDataDepuisJson();
-  });
-
-  const btn2 = document.getElementById("btn-sauvegarder");
-  btn2?.addEventListener("click", async () => {
-    await utilisateur.get().telechargerDataEnJson();
-  });
-</script>

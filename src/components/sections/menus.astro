@@ -1,0 +1,10 @@
+<section id="section-menus">
+  <h2>Mes Menus de la Semaine</h2>
+  <div id="menus"></div>
+</section>
+
+<script>
+  import { utilisateur } from "../../store.ts";
+  const u = utilisateur.get();
+  u.afficherMenus();
+</script>

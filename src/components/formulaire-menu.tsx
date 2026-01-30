@@ -1,140 +1,41 @@
-import React, { useState } from "react";
-import { useStore } from "@nanostores/react";
 import "../styles/formulaire-menu.css";
 import "../styles/formulaire.css";
-import { utilisateur } from "../store";
-import { MenusDeLaSemaine, MenusDuJour } from "../classes/menus";
-import { Plat } from "../classes/plat";
+import { useFormulaireMenu } from "../hooks/useFormulaireMenu";
 
 export default function FormulaireMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-  const $utilisateur = useStore(utilisateur);
-  const plats = $utilisateur.plats;
-
-  const [startDate, setStartDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split("T")[0];
-  });
-
-  const [selectedSeasons, setSelectedSeasons] = useState([
-    "printemps",
-    "ete",
-    "automne",
-    "hiver",
-  ]);
-
-  const toggleSeason = (season: string) => {
-    setSelectedSeasons((prev) =>
-      prev.includes(season)
-        ? prev.filter((s) => s !== season)
-        : [...prev, season],
-    );
-  };
-
-  // Local state for the 7 days
-  const [days, setDays] = useState(
-    Array.from({ length: 7 }, (_, i) => ({
-      id: i,
-      midi: "",
-      soir: "",
-    })),
-  );
-
-  const handleChange = (dayId: number, field: string, value: string) => {
-    setDays(days.map((d) => (d.id === dayId ? { ...d, [field]: value } : d)));
-  };
-
-  const getDayDate = (index: number) => {
-    const date = new Date(startDate);
-    date.setDate(date.getDate() + index);
-    return date.toLocaleDateString("fr-FR", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    });
-  };
-
-  const generateRandomMenu = () => {
-    const midiPlats = plats.filter(
-      (p) =>
-        p.repas.midi &&
-        p.saisons.some((s: string) => selectedSeasons.includes(s)),
-    );
-    const soirPlats = plats.filter(
-      (p) =>
-        p.repas.soir &&
-        p.saisons.some((s: string) => selectedSeasons.includes(s)),
-    );
-
-    if (midiPlats.length === 0 || soirPlats.length === 0) {
-      alert(
-        "Pas assez de plats correspondants aux saisons sélectionnées pour générer le menu.",
-      );
-      return;
-    }
-
-    const newDays = days.map((day) => {
-      const randomMidi =
-        midiPlats[Math.floor(Math.random() * midiPlats.length)];
-      const randomSoir =
-        soirPlats[Math.floor(Math.random() * soirPlats.length)];
-      return {
-        ...day,
-        midi: randomMidi.nom,
-        soir: randomSoir.nom,
-      };
-    });
-
-    setDays(newDays);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Check if all slots are filled
-    const missingItems = days.some((d) => !d.midi || !d.soir);
-    if (missingItems) {
-      alert("Veuillez sélectionner un plat pour tous les repas de la semaine.");
-      return;
-    }
-
-    // Find the plat objects based on selected names
-    const menuDuJourList = days.map((day, index) => {
-      const midiPlat = plats.find((p) => p.nom === day.midi);
-      const soirPlat = plats.find((p) => p.nom === day.soir);
-
-      const date = new Date(startDate);
-      date.setDate(date.getDate() + index);
-
-      return new MenusDuJour(
-        date.toLocaleDateString("fr-FR"),
-        midiPlat as any,
-        soirPlat as any,
-      );
-    });
-
-    const nouveauMenuSemaine = new MenusDeLaSemaine(menuDuJourList as any);
-    console.log(nouveauMenuSemaine);
-    utilisateur.get().ajouterMenu(nouveauMenuSemaine);
-
-    // Reset state & close
-    setIsOpen(false);
-  };
+  const {
+    isOpen,
+    setIsOpen,
+    isEditMode,
+    startDate,
+    setStartDate,
+    selectedSeasons,
+    days,
+    plats,
+    handleChange,
+    getDayDate,
+    generateRandomMenu,
+    handleSubmit,
+    toggleSeason,
+    resetForm,
+  } = useFormulaireMenu();
 
   return (
     <>
-      <button
-        className={`form-toggle-btn menu-toggle ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Créer un menu de la semaine"
-        title="Créer un menu de la semaine"
-      >
-        {isOpen ? "×" : "📅"}
-      </button>
+      {!isEditMode && (
+        <button
+          className={`form-toggle-btn menu-toggle ${isOpen ? "open" : ""}`}
+          onClick={() => (isOpen ? resetForm() : setIsOpen(true))}
+          aria-label="Créer un menu de la semaine"
+          title="Créer un menu de la semaine"
+        >
+          {isOpen ? "×" : "📅"}
+        </button>
+      )}
 
       <div className={`form-side-panel ${isOpen ? "open" : ""}`}>
         <form className="form-container" onSubmit={handleSubmit}>
-          <h3>Nouveau Menu</h3>
+          <h3>{isEditMode ? "Modifier le Menu" : "Nouveau Menu"}</h3>
 
           <div className="form-group">
             <label htmlFor="startDate">Date de début</label>
@@ -147,35 +48,39 @@ export default function FormulaireMenu() {
             />
           </div>
 
-          <div className="form-section">
-            <h4>Filtrer par saison</h4>
-            <div className="checkbox-options">
-              {[
-                { id: "printemps", label: "Printemps" },
-                { id: "ete", label: "Été" },
-                { id: "automne", label: "Automne" },
-                { id: "hiver", label: "Hiver" },
-              ].map((s) => (
-                <label key={s.id}>
-                  <input
-                    type="checkbox"
-                    checked={selectedSeasons.includes(s.id)}
-                    onChange={() => toggleSeason(s.id)}
-                  />
-                  {s.label}
-                </label>
-              ))}
+          {!isEditMode && (
+            <div className="form-section">
+              <h4>Filtrer par saison</h4>
+              <div className="checkbox-options">
+                {[
+                  { id: "printemps", label: "Printemps" },
+                  { id: "ete", label: "Été" },
+                  { id: "automne", label: "Automne" },
+                  { id: "hiver", label: "Hiver" },
+                ].map((s) => (
+                  <label key={s.id}>
+                    <input
+                      type="checkbox"
+                      checked={selectedSeasons.includes(s.id)}
+                      onChange={() => toggleSeason(s.id)}
+                    />
+                    {s.label}
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={generateRandomMenu}
-            style={{ width: "100%", marginTop: "1rem" }}
-          >
-            🎲 Générer aléatoirement
-          </button>
+          {!isEditMode && (
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={generateRandomMenu}
+              style={{ width: "100%", marginTop: "1rem" }}
+            >
+              🎲 Générer aléatoirement
+            </button>
+          )}
 
           <div style={{ marginTop: "1rem" }}>
             {days.map((day) => (
@@ -199,9 +104,10 @@ export default function FormulaireMenu() {
                         .filter(
                           (p) =>
                             p.repas.midi &&
-                            p.saisons.some((s: string) =>
-                              selectedSeasons.includes(s),
-                            ),
+                            (selectedSeasons.length === 0 ||
+                              p.saisons.some((s: string) =>
+                                selectedSeasons.includes(s),
+                              )),
                         )
                         .map((p) => (
                           <option key={`${day.id}-midi-${p.nom}`} value={p.nom}>
@@ -224,9 +130,10 @@ export default function FormulaireMenu() {
                         .filter(
                           (p) =>
                             p.repas.soir &&
-                            p.saisons.some((s: string) =>
-                              selectedSeasons.includes(s),
-                            ),
+                            (selectedSeasons.length === 0 ||
+                              p.saisons.some((s: string) =>
+                                selectedSeasons.includes(s),
+                              )),
                         )
                         .map((p) => (
                           <option key={`${day.id}-soir-${p.nom}`} value={p.nom}>
@@ -240,19 +147,31 @@ export default function FormulaireMenu() {
             ))}
           </div>
 
-          <button
-            type="submit"
-            className="btn-primary"
-            style={{ width: "100%", marginBottom: "2rem", marginTop: "2rem" }}
-          >
-            Enregistrer le menu de la semaine
-          </button>
+          <div className="form-actions" style={{ marginTop: "2rem" }}>
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{ width: "100%", marginBottom: "0.5rem" }}
+            >
+              {isEditMode
+                ? "Enregistrer les modifications"
+                : "Enregistrer le menu de la semaine"}
+            </button>
+            {isEditMode && (
+              <button
+                type="button"
+                className="btn-secondary"
+                style={{ width: "100%", marginBottom: "2rem" }}
+                onClick={resetForm}
+              >
+                Annuler
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
-      {isOpen && (
-        <div className="form-overlay" onClick={() => setIsOpen(false)} />
-      )}
+      {isOpen && <div className="form-overlay" onClick={resetForm} />}
     </>
   );
 }

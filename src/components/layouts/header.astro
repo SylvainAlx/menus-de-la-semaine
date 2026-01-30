@@ -1,13 +1,32 @@
 <header>
   <h1>Les menus de la semaine</h1>
   <div class="button-container">
-    <button id="btn-charger" class="btn-primary">Charger les données</button>
-    <button id="btn-sauvegarder" class="btn-primary"
-      >Sauvegarder les données</button
-    >
+    <button id="btn-charger" class="btn-primary">Charger</button>
+    <button id="btn-sauvegarder" class="btn-primary">Télécharger</button>
+    <button id="btn-reset" class="btn-danger">Réinitialiser</button>
   </div>
   <nav class="button-container">
     <a href="/#plats" class="btn-secondary">Plats</a>
     <a href="/#menus" class="btn-secondary">Menus</a>
   </nav>
 </header>
+<script>
+  import { utilisateur } from "../../store.ts";
+
+  const btn = document.getElementById("btn-charger");
+  btn?.addEventListener("click", async () => {
+    await utilisateur.get().chargerDataDepuisJson();
+  });
+
+  const btn2 = document.getElementById("btn-sauvegarder");
+  btn2?.addEventListener("click", async () => {
+    await utilisateur.get().telechargerDataEnJson();
+  });
+
+  const btn3 = document.getElementById("btn-reset");
+  btn3?.addEventListener("click", async () => {
+    if (window.confirm("Voulez-vous vraiment réinitialiser les données ?")) {
+      utilisateur.get().reset();
+    }
+  });
+</script>

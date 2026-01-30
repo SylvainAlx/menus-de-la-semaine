@@ -1,26 +1,10 @@
 ---
-import FormulairePlat from "../components/formulaire-plat";
-import FormulaireMenu from "../components/formulaire-menu";
 import Layout from "../layouts/layout.astro";
+import Plats from "../components/sections/plats.astro";
+import Menus from "../components/sections/menus.astro";
 ---
 
 <Layout>
-  <section id="plats">
-    <section>
-      <h2>Plats</h2>
-      <div id="liste_plats"></div>
-      <FormulairePlat client:load />
-      <FormulaireMenu client:load />
-    </section>
-  </section>
-  <section>
-    <h2>Menus</h2>
-    <div id="menus"></div>
-  </section>
+  <Plats />
+  <Menus />
 </Layout>
-
-<script>
-  import { utilisateur } from "../store.ts";
-  utilisateur.get().afficherPlats();
-  utilisateur.get().afficherMenus();
-</script>
