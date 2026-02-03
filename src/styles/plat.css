@@ -33,6 +33,12 @@
   color: var(--primary-dark);
 }
 
+.plat-badge.occurrence-badge {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
 .plat-header-right {
   display: flex;
   align-items: center;

@@ -232,29 +232,56 @@ export class Utilisateur {
     }
   }
 
+  getOccurrencePlat(platNom) {
+    let count = 0;
+    this.menus.forEach((semaine) => {
+      semaine.menus.forEach((jour) => {
+        if (jour.midi && jour.midi.nom === platNom) count++;
+        if (jour.soir && jour.soir.nom === platNom) count++;
+      });
+    });
+    return count;
+  }
+
   async chargerDataDepuisJson() {
     if (typeof window === "undefined") return;
-    try {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = ".json";
-      input.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.addEventListener("load", (event) => {
-            const jsonSession = event.target.result;
-            this.parserEtChargerData(jsonSession);
-            this.sauvegarderDansLocalStorage();
-            localStorage.setItem("menus_repas_filename", file.name);
-          });
-          reader.readAsText(file);
-        }
-      });
-      input.click();
-    } catch (error) {
-      console.error("Erreur lors du chargement des données JSON :", error);
-    }
+    return new Promise((resolve, reject) => {
+      try {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json";
+        input.addEventListener("change", (event) => {
+          const file = event.target.files?.[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.addEventListener("load", (event) => {
+              try {
+                const jsonSession = event.target?.result;
+                this.parserEtChargerData(jsonSession);
+                this.sauvegarderDansLocalStorage();
+                localStorage.setItem("menus_repas_filename", file.name);
+                resolve();
+              } catch (e) {
+                console.error(
+                  "Erreur lors de l'application des données chargées :",
+                  e,
+                );
+                reject(e);
+              }
+            });
+            reader.onerror = () =>
+              reject(new Error("Erreur de lecture du fichier"));
+            reader.readAsText(file);
+          } else {
+            resolve();
+          }
+        });
+        input.click();
+      } catch (error) {
+        console.error("Erreur lors du chargement des données JSON :", error);
+        reject(error);
+      }
+    });
   }
 
   async telechargerDataEnJson() {

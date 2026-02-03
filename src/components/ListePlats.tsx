@@ -47,6 +47,7 @@ export default function ListePlats() {
           <PlatCard
             key={plat.nom}
             plat={plat}
+            occurrenceCount={user.getOccurrencePlat(plat.nom)}
             onDelete={handleDelete}
             onEdit={handleEdit}
           />

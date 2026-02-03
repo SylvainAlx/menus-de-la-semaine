@@ -3,11 +3,17 @@ import type { Plat } from "../classes/plat";
 
 interface PlatCardProps {
   plat: Plat;
+  occurrenceCount: number;
   onDelete: (plat: Plat) => void;
   onEdit: (plat: Plat) => void;
 }
 
-const PlatCard: React.FC<PlatCardProps> = ({ plat, onDelete, onEdit }) => {
+const PlatCard: React.FC<PlatCardProps> = ({
+  plat,
+  occurrenceCount,
+  onDelete,
+  onEdit,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -15,6 +21,14 @@ const PlatCard: React.FC<PlatCardProps> = ({ plat, onDelete, onEdit }) => {
       <div className="plat-header">
         <h3 className="plat-nom">{plat.nom}</h3>
         <div className="plat-header-right">
+          {occurrenceCount > 0 && (
+            <span
+              className="plat-badge occurrence-badge"
+              title="Nombre de fois dans les menus"
+            >
+              📅 {occurrenceCount}
+            </span>
+          )}
           {plat.vegetarien && <span className="plat-badge">Veggie</span>}
           <button
             className="btn-editer"
