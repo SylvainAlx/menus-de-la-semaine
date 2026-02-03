@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useStore } from "@nanostores/react";
 import { utilisateur } from "../store";
 import { Plat } from "../classes/plat";
 import { Ingredient } from "../classes/ingredient";
@@ -41,11 +42,24 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     hiver: true,
   });
   const [recette, setRecette] = useState("");
+  const $utilisateur = useStore(utilisateur);
+
+  const allIngredientNames = useMemo(() => {
+    const names = new Set<string>();
+    $utilisateur.plats.forEach((plat: Plat) => {
+      plat.ingredients.forEach((ing: any) => {
+        if (ing.nom) {
+          names.add(ing.nom.trim());
+        }
+      });
+    });
+    return Array.from(names).sort((a, b) => a.localeCompare(b));
+  }, [$utilisateur.plats]);
 
   // Utiliser useEffect pour initialiser avec des IDs uniques après le montage
   useEffect(() => {
     setIngredients((prev) =>
-      prev.map((ing, index) => ({
+      prev.map((ing: IngredientForm, index: number) => ({
         ...ing,
         id: index + 1,
       })),
@@ -189,9 +203,12 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
       // Mode édition : remplacer le plat existant
       const user = utilisateur.get();
       user.modifierPlat(currentPlat, nouveauPlat);
+      utilisateur.set(user.clone());
     } else {
       // Mode ajout : ajouter un nouveau plat
-      utilisateur.get().ajouterPlat(nouveauPlat);
+      const user = utilisateur.get();
+      user.ajouterPlat(nouveauPlat);
+      utilisateur.set(user.clone());
     }
 
     // Réinitialiser le formulaire
@@ -216,6 +233,7 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     saisons,
     currentPlat,
     recette,
+    allIngredientNames,
 
     // Setters
     setIsOpen,

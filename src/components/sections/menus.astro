@@ -1,10 +1,8 @@
+---
+import ListeMenus from "../ListeMenus";
+---
+
 <section id="section-menus">
   <h2 id="menus-title">Mes menus de la semaine</h2>
-  <div id="menus"></div>
+  <ListeMenus client:only="react" />
 </section>
-
-<script>
-  import { utilisateur } from "../../store.ts";
-  const u = utilisateur.get();
-  u.afficherMenus();
-</script>

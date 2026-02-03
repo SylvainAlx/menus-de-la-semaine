@@ -1,5 +1,3 @@
-import "../styles/formulaire-menu.css";
-import "../styles/formulaire.css";
 import { useFormulaireMenu } from "../hooks/useFormulaireMenu";
 
 export default function FormulaireMenu() {

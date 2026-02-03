@@ -173,8 +173,10 @@ export function useFormulaireMenu() {
     const user = utilisateur.get();
     if (isEditMode && currentMenu) {
       user.modifierMenu(currentMenu, nouveauMenuSemaine);
+      utilisateur.set(user.clone());
     } else {
       user.ajouterMenu(nouveauMenuSemaine);
+      utilisateur.set(user.clone());
     }
 
     // Reset state & close

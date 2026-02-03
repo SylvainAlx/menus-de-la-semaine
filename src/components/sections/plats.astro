@@ -1,6 +1,7 @@
 ---
 import FormulaireMenu from "../formulaire-menu";
 import FormulairePlat from "../formulaire-plat";
+import ListePlats from "../ListePlats";
 ---
 
 <section id="plats">
@@ -46,7 +47,9 @@ import FormulairePlat from "../formulaire-plat";
         </div>
       </div>
     </div>
-    <div id="liste_plats"></div>
+
+    <ListePlats client:only="react" />
+
     <div class="actions-plats">
       <FormulairePlat client:only="react" />
       <FormulaireMenu client:only="react" />
@@ -58,16 +61,18 @@ import FormulairePlat from "../formulaire-plat";
   import { utilisateur } from "../../store";
 
   const u = utilisateur.get();
-  u.afficherPlats();
+
   // Écouteurs pour les filtres
   document.getElementById("filtre-saison")?.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
     u.appliquerFiltres({ saison: target.value });
+    utilisateur.set(u.clone()); // Notifier le store
   });
 
   document.getElementById("filtre-moment")?.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
     u.appliquerFiltres({ moment: target.value });
+    utilisateur.set(u.clone()); // Notifier le store
   });
 
   document.getElementById("filtre-duree")?.addEventListener("input", (e) => {
@@ -81,10 +86,12 @@ import FormulairePlat from "../formulaire-plat";
 
     const filterValue = value >= 120 ? Infinity : value;
     u.appliquerFiltres({ dureeMax: filterValue });
+    utilisateur.set(u.clone()); // Notifier le store
   });
 
   document.getElementById("filtre-veggie")?.addEventListener("change", (e) => {
     const target = e.target as HTMLInputElement;
     u.appliquerFiltres({ vegetarien: target.checked });
+    utilisateur.set(u.clone()); // Notifier le store
   });
 </script>

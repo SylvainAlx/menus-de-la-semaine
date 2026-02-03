@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap");
 @import "plat.css";
 @import "menu.css";
-@import "ingredient.css";
 @import "formulaire.css";
 
 
@@ -51,7 +50,7 @@ h1 {
 }
 
 main {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 

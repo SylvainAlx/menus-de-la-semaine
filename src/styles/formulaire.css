@@ -1,3 +1,6 @@
+@import "formulaire-plat.css";
+@import "formulaire-menu.css";
+
 .form-container {
   background: var(--card-bg);
   padding: 1.5rem;

@@ -15,7 +15,9 @@
 
   const btn = document.getElementById("btn-charger");
   btn?.addEventListener("click", async () => {
-    await utilisateur.get().chargerDataDepuisJson();
+    const u = utilisateur.get();
+    await u.chargerDataDepuisJson();
+    utilisateur.set(u.clone());
   });
 
   const btn2 = document.getElementById("btn-sauvegarder");
@@ -29,7 +31,9 @@
   const btn3 = document.getElementById("btn-reset");
   btn3?.addEventListener("click", async () => {
     if (window.confirm("Voulez-vous vraiment réinitialiser les données ?")) {
-      utilisateur.get().reset();
+      const u = utilisateur.get();
+      u.reset();
+      utilisateur.set(u.clone());
     }
   });
 </script>

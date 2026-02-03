@@ -1,5 +1,3 @@
-import "../styles/formulaire-plat.css";
-import "../styles/formulaire.css";
 import { Plat } from "../classes/plat";
 import { useFormulairePlat } from "../hooks/useFormulairePlat";
 
@@ -35,6 +33,7 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
     handleChangeIngredient,
     addIngredient,
     removeIngredient,
+    allIngredientNames,
   } = useFormulairePlat({ plat, onSave });
 
   return (
@@ -186,6 +185,7 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
                     onChange={(e) =>
                       handleChangeIngredient(ing.id, "nom", e.target.value)
                     }
+                    list="liste-ingredients"
                     required
                   />
                   <input
@@ -199,9 +199,7 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
                     }
                     required
                   />
-                  <input
-                    type="text"
-                    placeholder="Unité"
+                  <select
                     name="unite"
                     className="ing-input ing-input-unite"
                     value={ing.unite}
@@ -209,7 +207,24 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
                       handleChangeIngredient(ing.id, "unite", e.target.value)
                     }
                     required
-                  />
+                  >
+                    <option value="">-Unité-</option>
+                    <option value="unité">unité(s)</option>
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="cl">cl</option>
+                    <option value="l">l</option>
+                    <option value="c. à soupe">c. à soupe</option>
+                    <option value="c. à café">c. à café</option>
+                    <option value="pincée">pincée</option>
+                    <option value="gousse">gousse(s)</option>
+                    <option value="botte">botte(s)</option>
+                    <option value="sachet">sachet(s)</option>
+                    <option value="boîte">boîte(s)</option>
+                    <option value="tranche">tranche(s)</option>
+                    <option value="pot">pot(s)</option>
+                  </select>
                   <button
                     type="button"
                     className="remove-ing"
@@ -268,6 +283,12 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
       {isOpen && (
         <div className="form-overlay" onClick={() => setIsOpen(false)} />
       )}
+
+      <datalist id="liste-ingredients">
+        {allIngredientNames.map((name) => (
+          <option key={name} value={name} />
+        ))}
+      </datalist>
     </>
   );
 }
