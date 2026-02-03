@@ -9,6 +9,8 @@
   --primary: #6366f1;
   --primary-dark: #4f46e5;
   --bg-main: #f8fafc;
+  --warning: #f59e0b;
+  --warning-dark: #d97706;
   --danger: #ef4444;
   --danger-dark: #dc2626;
   --text-main: #1e293b;
@@ -25,6 +27,12 @@ body {
   margin: 0;
   padding: 2rem;
   line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
 }
 
 header {

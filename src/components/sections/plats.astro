@@ -18,6 +18,26 @@ import FormulairePlat from "../formulaire-plat";
           </select>
         </div>
         <div class="filtre-group">
+          <select id="filtre-moment">
+            <option value="tous">Midi & Soir</option>
+            <option value="midi">Midi</option>
+            <option value="soir">Soir</option>
+          </select>
+        </div>
+        <div class="filtre-group flex-col">
+          <label for="filtre-duree"
+            >Prêt en <span id="duree-val">60+</span> min</label
+          >
+          <input
+            type="range"
+            id="filtre-duree"
+            min="5"
+            max="60"
+            step="5"
+            value="60"
+          />
+        </div>
+        <div class="filtre-group">
           <label class="checkbox-container">
             <input type="checkbox" id="filtre-veggie" />
             <span class="checkmark"></span>
@@ -43,6 +63,24 @@ import FormulairePlat from "../formulaire-plat";
   document.getElementById("filtre-saison")?.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
     u.appliquerFiltres({ saison: target.value });
+  });
+
+  document.getElementById("filtre-moment")?.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+    u.appliquerFiltres({ moment: target.value });
+  });
+
+  document.getElementById("filtre-duree")?.addEventListener("input", (e) => {
+    const target = e.target as HTMLInputElement;
+    const value = parseInt(target.value);
+    const display = document.getElementById("duree-val");
+
+    if (display) {
+      display.textContent = value >= 120 ? "120+" : value.toString();
+    }
+
+    const filterValue = value >= 120 ? Infinity : value;
+    u.appliquerFiltres({ dureeMax: filterValue });
   });
 
   document.getElementById("filtre-veggie")?.addEventListener("change", (e) => {

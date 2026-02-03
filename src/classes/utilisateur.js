@@ -6,7 +6,12 @@ export class Utilisateur {
   constructor() {
     this.plats = [];
     this.menus = [];
-    this.filtres = { saison: "toutes", vegetarien: false };
+    this.filtres = {
+      saison: "toutes",
+      vegetarien: false,
+      moment: "tous",
+      dureeMax: Infinity,
+    };
     if (typeof window !== "undefined") {
       this.chargerDepuisLocalStorage();
     }
@@ -14,10 +19,16 @@ export class Utilisateur {
   reset() {
     this.plats = [];
     this.menus = [];
-    this.filtres = { saison: "toutes", vegetarien: false };
+    this.filtres = {
+      saison: "toutes",
+      vegetarien: false,
+      moment: "tous",
+      dureeMax: Infinity,
+    };
     this.sauvegarderDansLocalStorage();
     this.afficherPlats();
     this.afficherMenus();
+    this.cacherBoutonSauvegarder();
   }
 
   sauvegarderDansLocalStorage() {
@@ -32,6 +43,7 @@ export class Utilisateur {
       try {
         this.parserEtChargerData(data);
         console.log("Données chargées depuis le localStorage");
+        this.cacherBoutonSauvegarder();
       } catch (error) {
         console.error(
           "Erreur lors du chargement depuis le localStorage:",
@@ -99,6 +111,18 @@ export class Utilisateur {
       );
     }
 
+    if (this.filtres.moment === "midi") {
+      platsAAfficher = platsAAfficher.filter((p) => p.repas.midi);
+    } else if (this.filtres.moment === "soir") {
+      platsAAfficher = platsAAfficher.filter((p) => p.repas.soir);
+    }
+
+    if (this.filtres.dureeMax !== Infinity && this.filtres.dureeMax !== null) {
+      platsAAfficher = platsAAfficher.filter(
+        (p) => p.duree_preparation <= this.filtres.dureeMax,
+      );
+    }
+
     if (platsAAfficher.length === 0) {
       platsContainer.innerHTML =
         "<p>Aucun plat ne correspond à vos filtres.</p>";
@@ -108,6 +132,15 @@ export class Utilisateur {
     platsAAfficher.map((plat) =>
       platsContainer.appendChild(this.creerCartePlat(plat)),
     );
+  }
+
+  afficherBoutonSauvegarder() {
+    const btn = document.getElementById("btn-sauvegarder");
+    btn?.classList.remove("hidden");
+  }
+  cacherBoutonSauvegarder() {
+    const btn = document.getElementById("btn-sauvegarder");
+    btn?.classList.add("hidden");
   }
 
   appliquerFiltres(nouveauxFiltres) {
@@ -403,12 +436,14 @@ export class Utilisateur {
     this.menus.push(menu);
     this.afficherMenus();
     this.sauvegarderDansLocalStorage();
+    this.afficherBoutonSauvegarder();
   }
 
   supprimerMenu(date) {
     this.menus = this.menus.filter((menu) => menu.date !== date);
     this.afficherMenus();
     this.sauvegarderDansLocalStorage();
+    this.afficherBoutonSauvegarder();
   }
 
   modifierMenu(ancienMenu, nouveauMenu) {
@@ -417,6 +452,7 @@ export class Utilisateur {
       this.menus[index] = nouveauMenu;
       this.afficherMenus();
       this.sauvegarderDansLocalStorage();
+      this.afficherBoutonSauvegarder();
     }
   }
 
@@ -424,12 +460,14 @@ export class Utilisateur {
     this.plats.push(plat);
     this.afficherPlats();
     this.sauvegarderDansLocalStorage();
+    this.afficherBoutonSauvegarder();
   }
 
   supprimerPlat(plat) {
     this.plats = this.plats.filter((p) => p.nom !== plat.nom);
     this.afficherPlats();
     this.sauvegarderDansLocalStorage();
+    this.afficherBoutonSauvegarder();
   }
 
   modifierPlat(ancienPlat, nouveauPlat) {
@@ -438,6 +476,7 @@ export class Utilisateur {
       this.plats[index] = nouveauPlat;
       this.afficherPlats();
       this.sauvegarderDansLocalStorage();
+      this.afficherBoutonSauvegarder();
     }
   }
 
@@ -467,7 +506,9 @@ export class Utilisateur {
   }
 
   async telechargerDataEnJson() {
+    let result = false;
     try {
+      if (!confirm("Voulez-vous sauvegarder les données ?")) return;
       const data = JSON.stringify(this);
       const blob = new Blob([data], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -476,8 +517,10 @@ export class Utilisateur {
       a.download = `menus_${new Date().toISOString()}.json`;
       a.click();
       URL.revokeObjectURL(url);
+      result = true;
     } catch (error) {
       console.error("Erreur lors de la sauvegarde des données JSON :", error);
     }
+    return result;
   }
 }

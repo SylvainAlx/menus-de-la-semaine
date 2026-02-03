@@ -1,6 +1,6 @@
 #menus {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .menu-actions {
@@ -177,5 +178,13 @@
   color: var(--text-main);
   text-align: right;
   font-style: italic;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  padding-left: 0.5rem;
+}
+
+.menu-title {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 

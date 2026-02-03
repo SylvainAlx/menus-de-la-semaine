@@ -1,8 +1,8 @@
 <header>
+  <button id="btn-sauvegarder" class="btn-warning">Enregistrer</button>
   <h1>Les menus de la semaine</h1>
   <div class="button-container">
     <button id="btn-charger" class="btn-primary">Charger</button>
-    <button id="btn-sauvegarder" class="btn-primary">Télécharger</button>
     <button id="btn-reset" class="btn-danger">Réinitialiser</button>
   </div>
   <nav class="button-container">
@@ -20,7 +20,10 @@
 
   const btn2 = document.getElementById("btn-sauvegarder");
   btn2?.addEventListener("click", async () => {
-    await utilisateur.get().telechargerDataEnJson();
+    const result = await utilisateur.get().telechargerDataEnJson();
+    if (result) {
+      utilisateur.get().cacherBoutonSauvegarder();
+    }
   });
 
   const btn3 = document.getElementById("btn-reset");

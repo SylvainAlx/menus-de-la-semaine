@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+  align-items: start;
 }
 
 
@@ -70,6 +71,7 @@
 
   .filtres-bar {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     align-items: center;
     background: rgba(255, 255, 255, 0.05);
@@ -79,19 +81,14 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .filtre-group {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  .filtre-group.flex-col {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 
-  .filtre-group label {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text-muted, #a0aec0);
-  }
-
-  #filtre-saison {
+  #filtre-saison,
+  #filtre-moment {
     background: #2d3748;
     color: white;
     border: 1px solid #4a5568;
@@ -100,10 +97,71 @@
     cursor: pointer;
     outline: none;
     transition: border-color 0.2s;
+    min-width: 140px;
   }
 
-  #filtre-saison:focus {
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    min-width: 150px;
+    height: 6px;
+    background: #4a5568;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .filtre-group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-muted, #a0aec0);
+  }
+
+  .filtre-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #63b3ed;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #2d3748;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  }
+
+  #filtre-saison:focus,
+  #filtre-moment:focus {
     border-color: #63b3ed;
+  }
+
+  @media (max-width: 768px) {
+    .filtres-bar {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .filtre-group {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .filtre-group.flex-col {
+        align-items: stretch;
+    }
+
+    #filtre-saison,
+    #filtre-moment {
+      width: 100%;
+    }
   }
 
   .checkbox-container {
@@ -132,7 +190,7 @@
 
   #section-menus {
     max-width: 1200px;
-    margin: 4rem auto;
+    margin: auto;
     padding: 0 1rem;
   }
 
