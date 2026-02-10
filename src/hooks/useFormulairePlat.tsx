@@ -133,6 +133,15 @@ export function useFormulairePlat({ plat, onSave }: FormulairePlatProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("side-panel-open");
+    } else {
+      document.body.classList.remove("side-panel-open");
+    }
+    return () => document.body.classList.remove("side-panel-open");
+  }, [isOpen]);
+
   const addIngredient = () => {
     setIngredients([
       ...ingredients,

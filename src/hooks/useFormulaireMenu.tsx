@@ -77,6 +77,15 @@ export function useFormulaireMenu() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("side-panel-open");
+    } else {
+      document.body.classList.remove("side-panel-open");
+    }
+    return () => document.body.classList.remove("side-panel-open");
+  }, [isOpen]);
+
   const handleChange = (dayId: number, field: string, value: string) => {
     setDays((prev) =>
       prev.map((d) => (d.id === dayId ? { ...d, [field]: value } : d)),
@@ -147,11 +156,11 @@ export function useFormulaireMenu() {
     e.preventDefault();
 
     // Check if all slots are filled
-    const missingItems = days.some((d) => !d.midi || !d.soir);
-    if (missingItems) {
-      alert("Veuillez sélectionner un plat pour tous les repas de la semaine.");
-      return;
-    }
+    // const missingItems = days.some((d) => !d.midi || !d.soir);
+    // if (missingItems) {
+    //   alert("Veuillez sélectionner un plat pour tous les repas de la semaine.");
+    //   return;
+    // }
 
     // Find the plat objects based on selected names
     const menuDuJourList = days.map((day, index) => {

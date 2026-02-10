@@ -11,6 +11,7 @@ export class Utilisateur {
       vegetarien: false,
       moment: "tous",
       dureeMax: Infinity,
+      ingredients: [],
     };
     if (typeof window !== "undefined") {
       this.chargerDepuisLocalStorage();
@@ -24,6 +25,7 @@ export class Utilisateur {
       vegetarien: false,
       moment: "tous",
       dureeMax: Infinity,
+      ingredients: [],
     };
     this.sauvegarderDansLocalStorage();
     this.cacherBoutonSauvegarder();
@@ -106,7 +108,27 @@ export class Utilisateur {
       );
     }
 
+    if (this.filtres.ingredients && this.filtres.ingredients.length > 0) {
+      platsAAfficher = platsAAfficher.filter((p) =>
+        this.filtres.ingredients.every((ingName) =>
+          p.ingredients.some(
+            (ing) => ing.nom.toLowerCase() === ingName.toLowerCase(),
+          ),
+        ),
+      );
+    }
+
     return platsAAfficher;
+  }
+
+  getTousLesIngredients() {
+    const ingredients = new Set();
+    this.plats.forEach((p) => {
+      p.ingredients.forEach((ing) => {
+        if (ing.nom) ingredients.add(ing.nom.trim());
+      });
+    });
+    return Array.from(ingredients).sort((a, b) => a.localeCompare(b));
   }
 
   afficherBoutonSauvegarder() {

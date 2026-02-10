@@ -1,19 +1,12 @@
 
 .menu-toggle {
-  top: 70% !important; /* Position it below the plat toggle */
-  background: #10b981 !important; /* Greenish for differentiation */
+  top: 70% !important; 
+  background: var(--accent) !important;
 }
 
-.menu-toggle.open {
-  right: 500px;
+.menu-toggle:hover {
+  background: var(--accent-dark) !important;
 }
-
-@media (max-width: 600px) {
-  .menu-toggle.open {
-    right: 90%;
-  }
-}
-
 
 
 .day-header {

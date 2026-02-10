@@ -2,8 +2,8 @@
 
 #liste_plats {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1rem;
   align-items: start;
 }
 
@@ -179,7 +179,7 @@
     user-select: none;
     gap: 0.5rem;
     font-weight: 500;
-    color: #cbd5e0;
+    color: #777a7e;
   }
 
   .checkbox-container input {

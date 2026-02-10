@@ -22,7 +22,7 @@ export default function FormulaireMenu() {
     <>
       {!isEditMode && (
         <button
-          className={`form-toggle-btn menu-toggle ${isOpen ? "open" : ""}`}
+          className={`side-panel-toggle form-toggle-btn menu-toggle ${isOpen ? "open" : ""}`}
           onClick={() => (isOpen ? resetForm() : setIsOpen(true))}
           aria-label="Créer un menu de la semaine"
           title="Créer un menu de la semaine"
@@ -31,7 +31,9 @@ export default function FormulaireMenu() {
         </button>
       )}
 
-      <div className={`form-side-panel ${isOpen ? "open" : ""}`}>
+      <div
+        className={`side-panel form-side-panel custom-scrollbar ${isOpen ? "open" : ""}`}
+      >
         <form className="form-container" onSubmit={handleSubmit}>
           <h3>{isEditMode ? "Modifier le Menu" : "Nouveau Menu"}</h3>
 
@@ -95,7 +97,6 @@ export default function FormulaireMenu() {
                       onChange={(e) =>
                         handleChange(day.id, "midi", e.target.value)
                       }
-                      required
                     >
                       <option value="">Choisir...</option>
                       {plats
@@ -121,7 +122,6 @@ export default function FormulaireMenu() {
                       onChange={(e) =>
                         handleChange(day.id, "soir", e.target.value)
                       }
-                      required
                     >
                       <option value="">Choisir...</option>
                       {plats
@@ -169,7 +169,9 @@ export default function FormulaireMenu() {
         </form>
       </div>
 
-      {isOpen && <div className="form-overlay" onClick={resetForm} />}
+      {isOpen && (
+        <div className="side-panel-overlay form-overlay" onClick={resetForm} />
+      )}
     </>
   );
 }

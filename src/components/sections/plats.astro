@@ -1,6 +1,4 @@
 ---
-import FormulaireMenu from "../formulaire-menu";
-import FormulairePlat from "../formulaire-plat";
 import ListePlats from "../ListePlats";
 ---
 
@@ -8,90 +6,8 @@ import ListePlats from "../ListePlats";
   <div class="plats-container">
     <div class="plats-header">
       <h2 id="plats-title">Mes plats</h2>
-      <div class="filtres-bar">
-        <div class="filtre-group">
-          <select id="filtre-saison">
-            <option value="toutes">Toutes saisons</option>
-            <option value="printemps">Printemps</option>
-            <option value="ete">Été</option>
-            <option value="automne">Automne</option>
-            <option value="hiver">Hiver</option>
-          </select>
-        </div>
-        <div class="filtre-group">
-          <select id="filtre-moment">
-            <option value="tous">Midi & Soir</option>
-            <option value="midi">Midi</option>
-            <option value="soir">Soir</option>
-          </select>
-        </div>
-        <div class="filtre-group flex-col">
-          <label for="filtre-duree"
-            >Prêt en <span id="duree-val">60+</span> min</label
-          >
-          <input
-            type="range"
-            id="filtre-duree"
-            min="5"
-            max="60"
-            step="5"
-            value="60"
-          />
-        </div>
-        <div class="filtre-group">
-          <label class="checkbox-container">
-            <input type="checkbox" id="filtre-veggie" />
-            <span class="checkmark"></span>
-            Végétarien
-          </label>
-        </div>
-      </div>
     </div>
 
     <ListePlats client:only="react" />
-
-    <div class="actions-plats">
-      <FormulairePlat client:only="react" />
-      <FormulaireMenu client:only="react" />
-    </div>
   </div>
 </section>
-
-<script>
-  import { utilisateur } from "../../store";
-
-  const u = utilisateur.get();
-
-  // Écouteurs pour les filtres
-  document.getElementById("filtre-saison")?.addEventListener("change", (e) => {
-    const target = e.target as HTMLSelectElement;
-    u.appliquerFiltres({ saison: target.value });
-    utilisateur.set(u.clone()); // Notifier le store
-  });
-
-  document.getElementById("filtre-moment")?.addEventListener("change", (e) => {
-    const target = e.target as HTMLSelectElement;
-    u.appliquerFiltres({ moment: target.value });
-    utilisateur.set(u.clone()); // Notifier le store
-  });
-
-  document.getElementById("filtre-duree")?.addEventListener("input", (e) => {
-    const target = e.target as HTMLInputElement;
-    const value = parseInt(target.value);
-    const display = document.getElementById("duree-val");
-
-    if (display) {
-      display.textContent = value >= 120 ? "120+" : value.toString();
-    }
-
-    const filterValue = value >= 120 ? Infinity : value;
-    u.appliquerFiltres({ dureeMax: filterValue });
-    utilisateur.set(u.clone()); // Notifier le store
-  });
-
-  document.getElementById("filtre-veggie")?.addEventListener("change", (e) => {
-    const target = e.target as HTMLInputElement;
-    u.appliquerFiltres({ vegetarien: target.checked });
-    utilisateur.set(u.clone()); // Notifier le store
-  });
-</script>

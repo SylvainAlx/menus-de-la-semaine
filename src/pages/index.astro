@@ -2,9 +2,15 @@
 import Layout from "../layouts/layout.astro";
 import Plats from "../components/sections/plats.astro";
 import Menus from "../components/sections/menus.astro";
+import FormulaireMenu from "../components/formulaire-menu";
+import FormulairePlat from "../components/formulaire-plat";
+import PanneauFiltres from "../components/PanneauFiltres";
 ---
 
 <Layout>
   <Plats />
   <Menus />
+  <PanneauFiltres client:only="react" />
+  <FormulairePlat client:only="react" />
+  <FormulaireMenu client:only="react" />
 </Layout>

@@ -1,0 +1,90 @@
+
+.filter-toggle-btn {
+  top: 30%;
+  background: var(--secondary);
+}
+
+.filter-toggle-btn:hover {
+  background: var(--secondary-dark);
+}
+
+.filter-toggle-btn.has-filters {
+  background: var(--warning);
+  box-shadow: -2px 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.filter-toggle-btn.has-filters:hover {
+  background: var(--warning-dark);
+}
+
+.filter-badge {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  background: var(--danger);
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.panel-header h3,
+.panel-header h4 {
+  margin: 0;
+}
+
+.btn-reset-all {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.apply-btn {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 10px;
+  background: var(--bg-main);
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-reset-ingredients {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2); 
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.label-text {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+

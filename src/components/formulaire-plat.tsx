@@ -40,15 +40,18 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
     <>
       {!isEditMode && (
         <button
-          className={`form-toggle-btn ${isOpen ? "open" : ""}`}
+          className={`side-panel-toggle form-toggle-btn ${isOpen ? "open" : ""}`}
           onClick={() => (isOpen ? resetForm() : setIsOpen(true))}
           aria-label="Ajouter un plat"
+          title="Ajouter un plat"
         >
-          {isOpen ? "×" : "+"}
+          {isOpen ? "×" : "🍽️"}
         </button>
       )}
 
-      <div className={`form-side-panel ${isOpen ? "open" : ""}`}>
+      <div
+        className={`side-panel form-side-panel custom-scrollbar ${isOpen ? "open" : ""}`}
+      >
         <form
           id={isEditMode ? "modifier_plat_form" : "ajouter_plat_form"}
           className="form-container"
@@ -281,7 +284,10 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
       </div>
 
       {isOpen && (
-        <div className="form-overlay" onClick={() => setIsOpen(false)} />
+        <div
+          className="side-panel-overlay form-overlay"
+          onClick={() => setIsOpen(false)}
+        />
       )}
 
       <datalist id="liste-ingredients">

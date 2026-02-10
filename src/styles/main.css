@@ -1,23 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap");
+@import "_variables.css";
+@import "side-panel.css";
 @import "plat.css";
 @import "menu.css";
 @import "formulaire.css";
-
-
-:root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --bg-main: #f8fafc;
-  --warning: #f59e0b;
-  --warning-dark: #d97706;
-  --danger: #ef4444;
-  --danger-dark: #dc2626;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --card-bg: #ffffff;
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --border-radius: 12px;
-}
+@import "formulaire-plat.css";
+@import "formulaire-menu.css";
+@import "panneau-filtres.css";
 
 body {
   font-family: "Outfit", sans-serif;
@@ -141,7 +130,7 @@ h2 {
 .plat-card, .menu-card {
   background: var(--card-bg);
   border-radius: var(--border-radius);
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: var(--shadow);
   border: 1px solid #f1f5f9;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
