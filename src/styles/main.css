@@ -7,6 +7,8 @@
 @import "formulaire-plat.css";
 @import "formulaire-menu.css";
 @import "panneau-filtres.css";
+@import "startup-modal.css";
+@import "tabs.css";
 
 body {
   font-family: "Outfit", sans-serif;

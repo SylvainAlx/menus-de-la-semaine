@@ -1,7 +1,7 @@
 <header>
   <button
     id="btn-sauvegarder"
-    class="side-panel-toggle save-toggle-btn"
+    class="side-panel-toggle-left save-toggle-btn"
     aria-label="Enregistrer les données"
     title="Enregistrer les données"
   >
@@ -22,24 +22,49 @@
     >
   </button>
   <h1>Les menus de la semaine</h1>
-  <div class="button-container">
-    <button
-      id="btn-charger"
-      class="btn-primary"
-      aria-label="Charger les données"
-      title="Charger les données">Charger</button
+  <button
+    id="btn-charger"
+    class="side-panel-toggle-left charger-toggle-btn"
+    aria-label="Charger les données"
+    title="Charger les données"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-folder-open"
+      ><path
+        d="m6 14 1.45-2.9a2 2 0 0 1 1.79-1.1H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.69.9H18a2 2 0 0 1 2 2v2"
+      ></path></svg
     >
-    <button
-      id="btn-reset"
-      class="btn-danger"
-      aria-label="Réinitialiser les données"
-      title="Réinitialiser les données">Réinitialiser</button
+  </button>
+  <button
+    id="btn-reset"
+    class="side-panel-toggle-left reset-toggle-btn"
+    aria-label="Réinitialiser les données"
+    title="Réinitialiser les données"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-rotate-ccw"
+      ><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path
+        d="M3 3v5h5"></path></svg
     >
-  </div>
-  <nav class="button-container">
-    <a href="#plats" class="btn-secondary">Plats</a>
-    <a href="#menus" class="btn-secondary">Menus</a>
-  </nav>
+  </button>
 </header>
 <script>
   import { utilisateur } from "../../store.ts";
@@ -53,10 +78,7 @@
 
   const btn2 = document.getElementById("btn-sauvegarder");
   btn2?.addEventListener("click", async () => {
-    const result = await utilisateur.get().telechargerDataEnJson();
-    if (result) {
-      utilisateur.get().cacherBoutonSauvegarder();
-    }
+    await utilisateur.get().telechargerDataEnJson();
   });
 
   const btn3 = document.getElementById("btn-reset");

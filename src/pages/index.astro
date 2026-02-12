@@ -5,12 +5,76 @@ import Menus from "../components/sections/menus.astro";
 import FormulaireMenu from "../components/formulaire-menu";
 import FormulairePlat from "../components/formulaire-plat";
 import PanneauFiltres from "../components/PanneauFiltres";
+import StartupModal from "../components/StartupModal";
 ---
 
 <Layout>
-  <Plats />
-  <Menus />
+  <StartupModal client:only="react" />
+
+  <div class="tabs-container">
+    <div class="tabs-list">
+      <button class="tab-item active" data-tab="tab-plats">Mes Plats</button>
+      <button class="tab-item" data-tab="tab-menus">Mes Menus</button>
+    </div>
+
+    <div id="tab-plats" class="tab-content active">
+      <Plats />
+    </div>
+    <div id="tab-menus" class="tab-content">
+      <Menus />
+    </div>
+  </div>
+
   <PanneauFiltres client:only="react" />
   <FormulairePlat client:only="react" />
   <FormulaireMenu client:only="react" />
 </Layout>
+
+<script>
+  function setupTabs() {
+    const tabs = document.querySelectorAll(".tab-item");
+    const contents = document.querySelectorAll(".tab-content");
+
+    function switchTab(tabId: string) {
+      tabs.forEach((t) => {
+        if (t.getAttribute("data-tab") === tabId) {
+          t.classList.add("active");
+        } else {
+          t.classList.remove("active");
+        }
+      });
+
+      contents.forEach((c) => {
+        if (c.id === tabId) {
+          c.classList.add("active");
+        } else {
+          c.classList.remove("active");
+        }
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const tabId = tab.getAttribute("data-tab");
+        if (tabId) {
+          switchTab(tabId);
+          // Optional: update hash without scrolling
+          history.pushState(null, "", `#${tabId.replace("tab-", "")}`);
+        }
+      });
+    });
+
+    // Handle initial hash or hash changes
+    function handleHash() {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "plats" || hash === "menus") {
+        switchTab(`tab-${hash}`);
+      }
+    }
+
+    window.addEventListener("hashchange", handleHash);
+    handleHash();
+  }
+
+  setupTabs();
+</script>

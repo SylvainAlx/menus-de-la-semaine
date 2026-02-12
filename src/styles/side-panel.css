@@ -5,7 +5,7 @@
   position: fixed;
   right: 0;
   transform: translateY(-50%);
-  width: 40px;
+  width: 28px;
   height: 100px;
   border-radius: 20px 0 0 20px;
   color: white;
@@ -22,8 +22,33 @@
 
 .side-panel-toggle:target, 
 .side-panel-toggle:hover {
-  width: 50px;
+  width: 40px;
   padding-right: 10px;
+}
+
+/* Left side toggles */
+.side-panel-toggle-left {
+  position: fixed;
+  left: 0;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 100px;
+  border-radius: 0 20px 20px 0;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.side-panel-toggle-left:hover {
+  width: 40px;
+  padding-left: 10px;
 }
 
 .side-panel-toggle.open {
@@ -38,25 +63,46 @@
 
   .side-panel-toggle:target, 
 .side-panel-toggle:hover {
-  width: 30px;
+  width: 40px;
 }
 }
 
 /* Hide other toggle buttons when a panel is open */
-body.side-panel-open .side-panel-toggle:not(.open) {
+body.side-panel-open .side-panel-toggle:not(.open),
+body.side-panel-open .side-panel-toggle-left:not(.open) {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
 .save-toggle-btn {
-  top: 15%;
+  top: 30%;
   background: var(--warning);
   box-shadow: -2px 0 10px rgba(245, 158, 11, 0.3);
 }
 
 .save-toggle-btn:hover {
   background: var(--warning-dark);
+}
+
+.charger-toggle-btn {
+  top: 45%;
+  background: var(--primary);
+  box-shadow: 2px 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.charger-toggle-btn:hover {
+  background: var(--primary-dark);
+}
+
+.reset-toggle-btn {
+  top: 60%;
+  background: var(--danger);
+  box-shadow: 2px 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.reset-toggle-btn:hover {
+  background: var(--danger-dark);
 }
 
 /* Base class for the side panel itself */

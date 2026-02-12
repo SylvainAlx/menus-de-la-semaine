@@ -13,9 +13,6 @@ export class Utilisateur {
       dureeMax: Infinity,
       ingredients: [],
     };
-    if (typeof window !== "undefined") {
-      this.chargerDepuisLocalStorage();
-    }
   }
   reset() {
     this.plats = [];
@@ -28,7 +25,6 @@ export class Utilisateur {
       ingredients: [],
     };
     this.sauvegarderDansLocalStorage();
-    this.cacherBoutonSauvegarder();
   }
 
   sauvegarderDansLocalStorage() {
@@ -43,7 +39,6 @@ export class Utilisateur {
       try {
         this.parserEtChargerData(data);
         console.log("Données chargées depuis le localStorage");
-        this.cacherBoutonSauvegarder();
       } catch (error) {
         console.error(
           "Erreur lors du chargement depuis le localStorage:",
@@ -131,16 +126,6 @@ export class Utilisateur {
     return Array.from(ingredients).sort((a, b) => a.localeCompare(b));
   }
 
-  afficherBoutonSauvegarder() {
-    const btn = document.getElementById("btn-sauvegarder");
-    btn?.classList.remove("hidden");
-  }
-
-  cacherBoutonSauvegarder() {
-    const btn = document.getElementById("btn-sauvegarder");
-    btn?.classList.add("hidden");
-  }
-
   appliquerFiltres(nouveauxFiltres) {
     this.filtres = { ...this.filtres, ...nouveauxFiltres };
   }
@@ -215,13 +200,11 @@ export class Utilisateur {
   ajouterMenu(menu) {
     this.menus.push(menu);
     this.sauvegarderDansLocalStorage();
-    this.afficherBoutonSauvegarder();
   }
 
   supprimerMenu(date) {
     this.menus = this.menus.filter((menu) => menu.date !== date);
     this.sauvegarderDansLocalStorage();
-    this.afficherBoutonSauvegarder();
   }
 
   modifierMenu(ancienMenu, nouveauMenu) {
@@ -229,20 +212,17 @@ export class Utilisateur {
     if (index !== -1) {
       this.menus[index] = nouveauMenu;
       this.sauvegarderDansLocalStorage();
-      this.afficherBoutonSauvegarder();
     }
   }
 
   ajouterPlat(plat) {
     this.plats.push(plat);
     this.sauvegarderDansLocalStorage();
-    this.afficherBoutonSauvegarder();
   }
 
   supprimerPlat(plat) {
     this.plats = this.plats.filter((p) => p.nom !== plat.nom);
     this.sauvegarderDansLocalStorage();
-    this.afficherBoutonSauvegarder();
   }
 
   modifierPlat(ancienPlat, nouveauPlat) {
@@ -250,7 +230,6 @@ export class Utilisateur {
     if (index !== -1) {
       this.plats[index] = nouveauPlat;
       this.sauvegarderDansLocalStorage();
-      this.afficherBoutonSauvegarder();
     }
   }
 
