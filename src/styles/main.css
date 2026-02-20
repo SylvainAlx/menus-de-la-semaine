@@ -10,18 +10,39 @@
 @import "startup-modal.css";
 @import "tabs.css";
 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: "Outfit", sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header, main {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+header {
+  padding-top: 2rem;
 }
 
 @media (max-width: 600px) {
-  body {
-    padding: 1rem;
+  header, main {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
@@ -43,6 +64,8 @@ h1 {
 main {
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  flex: 1;
 }
 
 section {
