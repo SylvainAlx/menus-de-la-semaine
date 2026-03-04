@@ -1,3 +1,8 @@
+---
+import Load from "../ui/Load.svg";
+import Save from "../ui/Save.svg";
+---
+
 <header>
   <button
     id="btn-sauvegarder"
@@ -5,21 +10,7 @@
     aria-label="Enregistrer les données"
     title="Enregistrer les données"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-save"
-      ><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
-      ></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline
-        points="7 3 7 8 15 8"></polyline></svg
-    >
+    <Save />
   </button>
   <h1>Les menus de la semaine</h1>
   <button
@@ -28,21 +19,7 @@
     aria-label="Charger les données"
     title="Charger les données"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-folder-open"
-      ><path
-        d="m6 14 1.45-2.9a2 2 0 0 1 1.79-1.1H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.69.9H18a2 2 0 0 1 2 2v2"
-      ></path></svg
-    >
+    <Load />
   </button>
   <button
     id="btn-reset"

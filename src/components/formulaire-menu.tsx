@@ -1,3 +1,4 @@
+import { ClipboardList } from "lucide-react";
 import { useFormulaireMenu } from "../hooks/useFormulaireMenu";
 
 export default function FormulaireMenu() {
@@ -27,7 +28,7 @@ export default function FormulaireMenu() {
           aria-label="Créer un menu de la semaine"
           title="Créer un menu de la semaine"
         >
-          {isOpen ? "×" : "📅"}
+          {isOpen ? "×" : <ClipboardList />}
         </button>
       )}
 

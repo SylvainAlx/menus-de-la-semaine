@@ -7,6 +7,7 @@ export class Utilisateur {
     this.plats = [];
     this.menus = [];
     this.filtres = {
+      recherche: "",
       saison: "toutes",
       vegetarien: false,
       moment: "tous",
@@ -18,6 +19,7 @@ export class Utilisateur {
     this.plats = [];
     this.menus = [];
     this.filtres = {
+      recherche: "",
       saison: "toutes",
       vegetarien: false,
       moment: "tous",
@@ -81,6 +83,13 @@ export class Utilisateur {
     platsAAfficher.sort((a, b) => a.nom.localeCompare(b.nom));
 
     // Application des filtres
+    if (this.filtres.recherche && this.filtres.recherche.trim() !== "") {
+      const search = this.filtres.recherche.toLowerCase();
+      platsAAfficher = platsAAfficher.filter((p) =>
+        p.nom.toLowerCase().includes(search),
+      );
+    }
+
     if (this.filtres.vegetarien) {
       platsAAfficher = platsAAfficher.filter((p) => p.vegetarien);
     }

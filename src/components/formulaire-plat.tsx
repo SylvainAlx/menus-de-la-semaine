@@ -1,3 +1,4 @@
+import { CookingPot } from "lucide-react";
 import { Plat } from "../classes/plat";
 import { useFormulairePlat } from "../hooks/useFormulairePlat";
 
@@ -45,7 +46,7 @@ export default function FormulairePlat({ plat, onSave }: FormulairePlatProps) {
           aria-label="Ajouter un plat"
           title="Ajouter un plat"
         >
-          {isOpen ? "×" : "🍽️"}
+          {isOpen ? "×" : <CookingPot />}
         </button>
       )}
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useStore } from "@nanostores/react";
 import { utilisateur } from "../store";
+import { Search, Save, X } from "lucide-react";
 
 export default function PanneauFiltres() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function PanneauFiltres() {
 
   const resetAll = () => {
     updateFilters({
+      recherche: "",
       saison: "toutes",
       vegetarien: false,
       moment: "tous",
@@ -44,7 +46,15 @@ export default function PanneauFiltres() {
     });
   };
 
+  const handleExport = async () => {
+    const success = await user.telechargerDataEnJson();
+    if (success) {
+      setIsOpen(false);
+    }
+  };
+
   const activeFiltersCount = [
+    filtres.recherche && filtres.recherche.trim() !== "",
     filtres.saison !== "toutes",
     filtres.vegetarien,
     filtres.moment !== "tous",
@@ -60,7 +70,7 @@ export default function PanneauFiltres() {
         aria-label="Filtrer les plats"
         title="Filtrer les plats"
       >
-        {isOpen ? "×" : "🔍"}
+        {isOpen ? "×" : <Search />}
         {!isOpen && activeFiltersCount > 0 && (
           <span className="filter-badge">{activeFiltersCount}</span>
         )}
@@ -75,6 +85,29 @@ export default function PanneauFiltres() {
             <button className="btn-reset-all" onClick={resetAll}>
               Tout réinitialiser
             </button>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="panneau-recherche">Rechercher</label>
+            <div className="search-input-wrapper">
+              <input
+                id="panneau-recherche"
+                type="text"
+                placeholder="Ex: Pâtes..."
+                value={filtres.recherche}
+                onChange={(e) => updateFilters({ recherche: e.target.value })}
+                className="search-input"
+              />
+              {filtres.recherche && (
+                <button
+                  className="btn-clear-search"
+                  onClick={() => updateFilters({ recherche: "" })}
+                  aria-label="Effacer la recherche"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="form-group">
@@ -166,12 +199,21 @@ export default function PanneauFiltres() {
             </div>
           </div>
 
-          <button
-            className="btn-primary apply-btn"
-            onClick={() => setIsOpen(false)}
-          >
-            Voir les résultats
-          </button>
+          <div className="panel-actions">
+            <button
+              className="btn-primary apply-btn"
+              onClick={() => setIsOpen(false)}
+            >
+              Voir les résultats
+            </button>
+            <button
+              className="btn-secondary export-btn"
+              onClick={handleExport}
+              title="Sauvegarder les données pour les utiliser sur un autre appareil"
+            >
+              <Save size={18} /> Sauvegarder (Export)
+            </button>
+          </div>
         </div>
       </div>
 

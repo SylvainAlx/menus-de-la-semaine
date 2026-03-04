@@ -12,12 +12,14 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/react": "^4.4.2",
     "@nanostores/react": "^1.0.0",
-    "@types/react": "^19.2.9",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^5.16.15",
-    "nanostores": "^1.1.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "astro": "^5.18.0",
+    "lucide-astro": "^0.556.0",
+    "lucide-react": "^0.576.0",
+    "nanostores": "^1.1.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "typescript": "^5.9.3"
   }
 }

@@ -20,6 +20,8 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   max-width: 500px;
   width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -82,6 +84,77 @@
 
 .btn-choice.secondary:hover {
   background: #fff1f2;
+}
+
+.btn-tutorial-trigger {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: none;
+  border: 1px dashed var(--primary);
+  color: var(--primary);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-tutorial-trigger:hover {
+  background: var(--primary-light, #f0f4ff);
+  transform: scale(1.02);
+}
+
+.tutorial-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.tutorial-step {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.step-icon {
+  font-size: 2rem;
+  background: white;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.step-text h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-main);
+  text-align: left;
+}
+
+.step-text p {
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.modal-content.tutorial {
+  max-width: 600px;
 }
 
 .icon {
